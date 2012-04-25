@@ -102,7 +102,6 @@ class mrp_production(osv.osv):
                 datetime.strptime(production.date_planned,'%Y-%m-%d %H:%M:%S').strftime('%m/%d/%Y'),
             )
             self.log(cr, uid, production.id, message)
-      #  self.action_ready(cr, uid, ids)
         return True
    
     def check_availability(self, cr, uid, ids, context=None):
@@ -137,7 +136,7 @@ class mrp_production(osv.osv):
             move_ids += [x.id for x in prod.move_lines if x.state in ['confirmed','waiting']]
            
         self.pool.get('stock.move').force_assign(cr, uid, move_ids)
-      #  self.action_ready(cr, uid, ids)        
+        self.action_ready(cr, uid, ids)        
         return True
     
 mrp_production()
