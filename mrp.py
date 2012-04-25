@@ -107,8 +107,7 @@ class mrp_production(osv.osv):
    
     def check_availability(self, cr, uid, ids, context=None):
         for prod in self.browse(cr, uid, ids ):
-            for move in prod.move_lines:
-                print "move state", move.state                
+            for move in prod.move_lines:               
                 if move.state != 'assigned':
                     return False
         return True
