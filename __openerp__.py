@@ -27,27 +27,27 @@
 #
 ##############################################################################
 
-
 {
-    "name" : "MRP Without internal Picking",
-    "version" : "0.1",
-    "author" : "NaN Projectes de Programari Lliure S.L.",
-    "category" : "Generic Modules/Production",
+    "name": "MRP Without internal Picking",
+    "version": "0.1",
+    "author": "NaN Projectes de Programari Lliure S.L.",
+    "category": "Generic Modules/Production",
     "website": "http://www.nan-tic.com",
-    "description": """      
+    "description": """
     """,
-    "depends" : [
-        "mrp"
+    "depends": [
+        "mrp",
     ],
-    "init_xml" : [],
-    "update_xml" : [
+    "init_xml": [],
+    "update_xml": [
         "workflow.xml",
-        "mrp_view.xml",        
+        "mrp_view.xml",
     ],
-    "demo_xml" : [],
+    "demo_xml": [],
     "test": [
     ],
     "active": False,
     "installable": True,
 }
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
