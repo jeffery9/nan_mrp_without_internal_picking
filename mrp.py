@@ -137,6 +137,22 @@ class mrp_production(osv.osv):
         return True
 
     # mrp.production
+    def action_produce(self, cr, uid, production_id, production_qty, 
+            production_mode, context=None):
+
+        res = super(mrp_production,self).action_produce(cr, uid, production_id,
+                production_qty, production_mode, context)
+
+        production = self.browse(cr, uid, production_id, context)
+        move_ids = [x.id for x in  production.move_lines]
+        if move_ids:
+            move_obj = self.pool.get('stock.move')
+            move_obj.write(cr, uid, move_ids, {'prodlot_id':None}, context )
+
+        return res
+
+
+    # mrp.production
     def force_production(self, cr, uid, ids, *args):
         """ Assigns products.
         @param *args: Arguments

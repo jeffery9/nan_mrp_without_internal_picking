@@ -13,5 +13,17 @@
             </field>
         </record>
 
+        <record id="mrp_production_form_lot_view" model="ir.ui.view">
+            <field name="name">mrp.production.lot.form</field>
+            <field name="model">mrp.production</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='product_uom']" position="after">
+                    <field name="prodlot_id" context="{'product_id': product_id}"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>
