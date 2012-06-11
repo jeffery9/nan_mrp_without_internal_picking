@@ -126,11 +126,18 @@ class mrp_production(osv.osv):
     # mrp.production
     def check_production(self, cr, uid, ids, context=None):
         wf_service = netsvc.LocalService("workflow")
+        stock_move_obj = self.pool.get('stock.move')
+        sm_ids = []
         for prod in self.browse(cr, uid, ids):
             for move in prod.move_lines:
+                sm_ids.append( move.id )
                 for procurement in move.procurements:
                         wf_service.trg_validate(uid, 'procurement.order',
+                                procurement.id, 'button_restart', cr)
+                        wf_service.trg_validate(uid, 'procurement.order',
                                 procurement.id, 'button_check', cr)
+
+        stock_move_obj.action_assign(cr, uid, sm_ids, context)
 
         if self.check_availability(cr, uid, ids, context):
             self.action_ready(cr, uid, ids)
