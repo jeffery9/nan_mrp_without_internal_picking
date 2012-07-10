@@ -147,8 +147,8 @@ class mrp_production(osv.osv):
     def action_produce(self, cr, uid, production_id, production_qty, 
             production_mode, context=None):
 
-        res = super(mrp_production,self).action_produce(cr, uid, production_id,
-                production_qty, production_mode, context)
+        res = super(mrp_production,self).action_produce(cr, uid, 
+                production_id, production_qty, production_mode, context)
 
         production = self.browse(cr, uid, production_id, context)
         move_ids = [x.id for x in  production.move_lines]
@@ -158,6 +158,43 @@ class mrp_production(osv.osv):
 
         return res
 
+
+    # mrp.production
+    def cancel_availability(self,cr, uid, ids, context):
+        wf_service = netsvc.LocalService("workflow")
+        stock_obj = self.pool.get('stock.move')
+        procurement_obj = self.pool.get('procurement.order')
+        move_line_ids = []
+        procurement_ids = []
+        for production in self.browse(cr, uid, ids, context):
+            move_line_ids += [x.id for x in production.move_lines]
+        
+        procurement_ids += procurement_obj.search(cr, uid,
+                [('origin_production_id','in',ids),
+                 ('procure_method','=','make_to_stock')],
+                context=context)
+
+        self.write(cr, uid, ids, {'state':'confirmed'}, context=context)
+        for p_id in ids:
+            wf_service.trg_validate(uid, 'mrp.production', p_id, 
+                    'action_cancel', cr)
+            wf_service.trg_delete(uid, 'mrp.production', p_id, cr)
+            wf_service.trg_create(uid, 'mrp.production', p_id, cr)
+
+
+        stock_obj.write(cr, uid, move_line_ids, {'state':'confirmed'}, 
+                context)
+
+        procurement_obj.write(cr, uid, procurement_ids, {
+            'state':'draft'}, context=context)
+
+        for proc in self.browse(cr, uid, procurement_ids, context=context):
+            wf_service.trg_delete(uid, 'procurement.order', proc.id, cr)
+            wf_service.trg_create(uid, 'procurement.order', proc.id, cr)
+            wf_service.trg_validate(uid, 'procurement.order', 
+                    proc.id, 'button_confirm', cr )
+
+        return True
 
     # mrp.production
     def force_production(self, cr, uid, ids, *args):
