@@ -31,9 +31,16 @@
     "name": "MRP Without internal Picking",
     "version": "0.1",
     "author": "NaN Projectes de Programari Lliure S.L.",
-    "category": "Generic Modules/Production",
+    "category": "Production",
     "website": "http://www.nan-tic.com",
-    "description": """
+    "description": """    
+To work with production orders without picking internal material collection.
+
+Lets check the availability of materials in the same order of production, 
+taking into account the supplies!
+
+It is also possible to cancel the availability of input materials in order to 
+give priority to other lines of production.
     """,
     "depends": [
         "mrp",
