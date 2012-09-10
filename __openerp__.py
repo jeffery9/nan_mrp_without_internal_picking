@@ -31,8 +31,9 @@
     "name": "MRP Without internal Picking",
     "version": "0.1",
     "author": "NaN Projectes de Programari Lliure S.L.",
-    "category": "Production",
+    "category": "Manufacturing",
     "website": "http://www.nan-tic.com",
+    "images": [ "images/mrp.png","images/mrp1.png", "images/mrp2.png"],
     "description": """    
 To work with production orders without picking internal material collection.
 
