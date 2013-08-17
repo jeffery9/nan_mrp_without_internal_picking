@@ -7,11 +7,9 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
-                <button name="button_recreate" states="picking_except" string="Recreate Picking" icon="terp-document-new" position="replace">
-                    <group col="2">
-                        <button name="check_production" states="confirmed,picking_except" string="Check Availability" type="object" icon="gtk-jump-to"/>
-                        <button name="cancel_availability" states="ready" string="Cancel Availability" type="object" icon="gtk-jump-to"/>
-                    </group>
+                <button name="button_recreate" states="picking_except" string="Recreate Picking"  position="replace">
+                <button name="check_production" states="confirmed,picking_except" string="Check Availability" type="object" />
+                <button name="cancel_availability" states="ready" string="Cancel Availability" type="object" />
                 </button>
             </field>
         </record>
